@@ -316,7 +316,7 @@ class Conf :
             print("\tnoipf:       \t", self.noipf)
 
     def parserset(self):
-        print("\nGrott override settings if set in commandline") 
+        print("Grott override settings if set in commandline") 
         if hasattr(self, "amode"): 
             self.mode = self.amode          
         if hasattr(self, "ablockcmd") and self.ablockcmd == True: 
@@ -355,7 +355,7 @@ class Conf :
         self.extension = str2bool(self.extension)
                
     def procconf(self): 
-        print("\nGrott process configuration file")
+        print("Grott process configuration file")
         config = configparser.ConfigParser()
         config.read(self.cfgfile)
         if config.has_option("Generic","minrecl"): self.minrecl = config.getint("Generic","minrecl")
@@ -424,7 +424,7 @@ class Conf :
         return envval
 
     def procenv(self): 
-        print("\nGrott process environmental variables")
+        print("Grott process environmental variables")
         if os.getenv('gmode') in ("sniff", "proxy") :  self.mode = self.getenv('gmode')
         if os.getenv('gverbose') != None :  self.verbose = self.getenv('gverbose')
         if os.getenv('gminrecl') != None : 
@@ -1587,7 +1587,7 @@ class Conf :
         self.recorddict.update(self.recorddict14)                   #T06NNNNXMIN
 
         f = []
-        print("\nGrott process json layout files")
+        print("Grott process json layout files")
         for (dirpath, dirnames, filenames) in walk('.'):            
             f.extend(filenames)
             break   
