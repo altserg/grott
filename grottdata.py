@@ -16,7 +16,8 @@ from typing import Dict
 # requests
 
 #import mqtt                       
-import paho.mqtt.publish as publish
+#import paho.mqtt.publish as publish
+from grottmqtt import publish as publish
 
 
 class GrottPvOutLimit:
