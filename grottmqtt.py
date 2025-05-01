@@ -100,7 +100,7 @@ class publish:
 				mqtt_client.loop_start()
 
 			mqtt_client.publish( topic=topic, payload=payload, qos=qos, retain=retain )
-			logging.info( 'MQTT message published' )
+#			logging.info( 'MQTT message published' )
 
 		if sig_int:
 			mqtt_client.loop_stop()

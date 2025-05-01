@@ -53,7 +53,7 @@ def format_multi_line(prefix, string, size=80):
     return '\n'.join([prefix + line for line in textwrap.wrap(string, size)])
 
 #decrypt data. 
-def decrypt(decdata) :   
+def decrypt(decdata,conf) :   
 
     ndecdata = len(decdata)
 
@@ -70,7 +70,7 @@ def decrypt(decdata) :
     
     result_string = "".join("{:02x}".format(n) for n in unscrambled)
     
-    print("\t - " + "Growatt data decrypted V2")   
+    if conf.verbose: print("\t - " + "Growatt data decrypted V2")   
     return result_string        
 
 def str2bool(defstr):
@@ -140,7 +140,7 @@ def procdata(conf,data):
         conf.decrypt = True  
     
     if conf.decrypt: 
-        result_string = decrypt(data) 
+        result_string = decrypt(data, conf) 
         if conf.verbose : print("\t - " + "Grott Growatt data decrypted")        
     else: 
         #do not decrypt 
@@ -192,7 +192,7 @@ def procdata(conf,data):
                         print("\t - Matched inverter serial to inverter type", inverterType)
                     except:
                         inverterType = "default"
-                        print("\t - Inverter serial not recognised - using inverter type", inverterType)
+                        if conf.verbose: print("\t - Inverter serial not recognised - using inverter type", inverterType)
 
                 if (inverterType != "default") :
                     layout = layout + inverterType.upper()
@@ -493,7 +493,7 @@ def procdata(conf,data):
                 if conf.mqttinverterintopic : 
                     mqtttopic = conf.mqtttopic + "/" + deviceid    
                 else: mqtttopic = conf.mqtttopic    
-            print("\t - " + 'Grott MQTT topic used : ' + mqtttopic)   
+            if conf.verbose: print("\t - " + 'Grott MQTT topic used : ' + mqtttopic)   
             
             if conf.mqttretain:
                if conf.verbose: print("\t - " + 'Grott MQTT message retain enabled')  

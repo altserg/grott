@@ -180,9 +180,10 @@ class Proxy:
 
     def on_recv(self,conf):
         data = self.data      
-        print("")
-        print("\t - " + "Growatt packet received:") 
-        print("\t\t ", self.channel[self.s])
+        if conf.verbose:
+            print("")
+            print("\t - " + "Growatt packet received:") 
+            print("\t\t ", self.channel[self.s])
         
         #test if record is not corrupted
         vdata = "".join("{:02x}".format(n) for n in data)
@@ -197,12 +198,12 @@ class Proxy:
         header = "".join("{:02x}".format(n) for n in data[0:8])
         if conf.blockcmd : 
             #standard everything is blocked!
-            print("\t - " + "Growatt command block checking started") 
+            if conf.verbose: print("\t - " + "Growatt command block checking started") 
             blockflag = True 
             #partly block configure Shine commands                   
             if header[14:16] == "18" :         
                 if conf.blockcmd : 
-                    if header[6:8] == "05" or header[6:8] == "06" : confdata = decrypt(data) 
+                    if header[6:8] == "05" or header[6:8] == "06" : confdata = decrypt(data,conf) 
                     else :  confdata = data
 
                     #get conf command (location depends on record type), maybe later more flexibility is needed
@@ -226,7 +227,7 @@ class Proxy:
 
             if blockflag : 
                 print("\t - Grott: Record blocked: ", header[12:16])
-                if header[6:8] == "05" or header[6:8] == "06" : blockeddata = decrypt(data) 
+                if header[6:8] == "05" or header[6:8] == "06" : blockeddata = decrypt(data,conf) 
                 else :  blockeddata = data
                 print(format_multi_line("\t\t ",blockeddata))
                 return
